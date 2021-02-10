@@ -34,7 +34,7 @@ if LOLZ:
     upperNumber = float(upperNumber)
 else:
     lowerNumber = int(lowerNumber)
-    upperNumber = float(upperNumber)
+    upperNumber = int(upperNumber)
 number = random.randint(lowerNumber, upperNumber) #picks the number
 
 def score(integer): #This is how it calculates which message to give
@@ -59,7 +59,7 @@ def score(integer): #This is how it calculates which message to give
 
 def scoreMultiplyerFunction(): #this changes the amount of tries to get different praise messages depending on how many possible values there are (difficulty)
     if LOLZ:
-        return (upperNumber - lowerNumber) / 100000000)
+        return (upperNumber - lowerNumber) / 100000000
     scoreMultiplyerCalc = upperNumber - lowerNumber
     if scoreMultiplyerCalc <= 16: #if there is only 16 possible solutions
         scoreMultiplyer = 1
