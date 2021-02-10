@@ -10,6 +10,7 @@ scoreMultiplyer = 1
 
 import random #needed for the random number generator
 import os #needed to clear the screen
+import sys
 def clearScreen(): #clears screen
     if os.name == 'nt': #is it windows
         os.system('cls') #windows clear
@@ -23,12 +24,26 @@ if rules.lower().strip()[0] == 'y' or rules.strip()[0] == "1": #it checks if the
     print("The rules of this game are this. \n\t Pick the lower and upper values of the range that the computer will pick the value in \n\t Guess the number, and it will tell you whether you arr too high, or too low. \n\t You want to guess the number in as little tries as possible. \n")
     input("Press ENTER to continue -->")
 
+LOLZ = None
+#LOLZ = True # Uncomment this line to add impossible mode...
+
 #finds out the range and then the number
-lowerNumber = int(input("\n\nWhat is the lower value for the range --> "))
-upperNumber = int(input("What is the upper value for the range --> "))
-number = random.randint(lowerNumber, upperNumber) #picks the number
+lowerNumber = input("\n\nWhat is the lower value for the range --> ")
+upperNumber = input("What is the upper value for the range --> ")
+if LOLZ:
+    lowerNumber = float(lowerNumber)
+    upperNumber = float(upperNumber)
+else:
+    lowerNumber = int(lowerNumber)
+    upperNumber = int(upperNumber)
+if LOLZ:
+    number = random.uniform(lowerNumber, upperNumber)
+else:
+    number = random.randint(lowerNumber, upperNumber) #picks the number
 
 def score(integer): #This is how it calculates which message to give
+    if LOLZ:
+        print("you're a cheater but whatever")
     if numberOfTries <= .25*scoreMultiplyer: #it is .25 times the multiplyer which means one try on really hard
         print("WOW WOW WOW WOW WOW WOW WOW!! YOU MUST BE SOOOOOOOOOOOOOOOOO LUCKY SINCE SOMEHOW IT ONLY TOOK YOU ", numberOfTries, "TRIES!!!!! WOW WOW WOW WOW WOW!!! YOU ARE UNOFFICIALLY THE BEST AT THIS GAME!!!!!!!")
     elif numberOfTries <= 1*scoreMultiplyer: #it is 1 times the multiplyer
@@ -43,8 +58,12 @@ def score(integer): #This is how it calculates which message to give
         print("That was pretty bad... It sadly took you", numberOfTries, "tries.")
     else:
         print("I'm sorry about this, but I have to say the truth. You were terrible. It took you", numberOfTries, "tries.")
+    if LOLZ:
+        sys.exit(255)
 
 def scoreMultiplyerFunction(): #this changes the amount of tries to get different praise messages depending on how many possible values there are (difficulty)
+    if LOLZ:
+        return (upperNumber - lowerNumber) / 100000000
     scoreMultiplyerCalc = upperNumber - lowerNumber
     if scoreMultiplyerCalc <= 16: #if there is only 16 possible solutions
         scoreMultiplyer = 1
@@ -71,7 +90,11 @@ clearScreen()
 while complete == False:
     numberOfTries += 1
     print("Pick a number between", lowerNumber, "and", upperNumber)
-    numberGuess = int(input("--> "))
+    numberGuess = input("--> ")
+    if LOLZ:
+        numberGuess = float(numberGuess)
+    else:
+        numberGuess = int(numberGuess)
     if numberGuess != number:
         if numberGuess > number: #to write whether or not they are above or below the number
             print("You are too high\n")
