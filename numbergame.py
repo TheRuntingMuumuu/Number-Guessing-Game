@@ -48,16 +48,20 @@ def scoreMultiplyerFunction(): #this changes the amount of tries to get differen
     scoreMultiplyerCalc = upperNumber - lowerNumber
     if scoreMultiplyerCalc <= 16: #if there is only 16 possible solutions
         scoreMultiplyer = 1
-    elif scoreMultiplyerCalc <= 50: #if there is only 50 possible solutions
+    elif scoreMultiplyerCalc <= 40: #if there is only 50 possible solutions
         scoreMultiplyer = 2
-    elif scoreMultiplyerCalc <= 100:
+    elif scoreMultiplyerCalc <= 80:
         scoreMultiplyer = 3
-    elif scoreMultiplyerCalc <= 500:
+    elif scoreMultiplyerCalc <= 300:
         scoreMultiplyer = 4
-    elif scoreMultiplyerCalc <= 1000:
+    elif scoreMultiplyerCalc <= 800:
         scoreMultiplyer = 5
-    else:
+    elif scoreMultiplyerCalc <= 2000:
         scoreMultiplyer = 6
+    elif scoreMultiplyerCalc <= 10000:
+        scoreMultiplyer = 10
+    else:
+        scoreMultiplyer = 12
     return(scoreMultiplyer) #returns it so that it can exist outside the function
 
 scoreMultiplyerCalc = upperNumber - lowerNumber #to find out how many possible solutions there are
