@@ -17,9 +17,10 @@ def clearScreen(): #clears screen
         os.system('clear') #macos/linux clear
 
 #figuring out the range and then picking a number
+clearScreen()
 rules = input("Welcome to the Number Guessing Game. Do you want to see the rules? --> ") #assignes rules variable to the input from the user
 if rules.lower().strip()[0] == 'y' or rules.strip()[0] == "1": #it checks if the first letter of the var rules is y, or 1
-    print("rules to come")
+    print("The rules of this game are this. \n\t Pick the lower and upper values of the range that the computer will pick the value in \n\t Guess the number, and it will tell you whether you arr too high, or too low. \n\t You want to guess the number in as little tries as possible. \n")
     input("Press ENTER to continue -->")
 
 #finds out the range and then the number
