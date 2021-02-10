@@ -10,6 +10,7 @@ scoreMultiplyer = 1
 
 import random #needed for the random number generator
 import os #needed to clear the screen
+import sys
 def clearScreen(): #clears screen
     if os.name == 'nt': #is it windows
         os.system('cls') #windows clear
@@ -35,7 +36,10 @@ if LOLZ:
 else:
     lowerNumber = int(lowerNumber)
     upperNumber = int(upperNumber)
-number = random.randint(lowerNumber, upperNumber) #picks the number
+if LOLZ:
+    number = random.uniform(lowerNumber, upperNumber)
+else:
+    number = random.randint(lowerNumber, upperNumber) #picks the number
 
 def score(integer): #This is how it calculates which message to give
     if LOLZ:
@@ -86,7 +90,11 @@ clearScreen()
 while complete == False:
     numberOfTries += 1
     print("Pick a number between", lowerNumber, "and", upperNumber)
-    numberGuess = int(input("--> "))
+    numberGuess = input("--> ")
+    if LOLZ:
+        numberGuess = float(numberGuess)
+    else:
+        numberGuess = int(numberGuess)
     if numberGuess != number:
         if numberGuess > number: #to write whether or not they are above or below the number
             print("You are too high\n")
