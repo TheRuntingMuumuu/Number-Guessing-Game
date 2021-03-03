@@ -1,12 +1,15 @@
 """
 This is just a program that I made when I thought of an old number guessing game that I played once.
-Programmed by TheRuntingMuumuu
+Made by TheRuntingMuumuu
 """
 #Just defining some variables
 complete = False
 numberGuess = 0 #Defining base values
-numberOfTries = 0
-scoreMultiplyer = 1
+numberOfTries = 0 #base value
+scoreMultiplyer = 1 #default value
+chosenNumbers = False #this is needed to tell the program that you have not chosen numbers yet
+lowerNumber = 1 #again just defines this so it does not error out later
+upperNumber = 100 #just defines this so it does not error out later
 
 import random #needed for the random number generator
 import os #needed to clear the screen
@@ -16,19 +19,47 @@ def clearScreen(): #clears screen
     else:
         os.system('clear') #macos/linux clear
 
-#figuring out the range and then picking a number
+def fullLine(): #makes a full width line in the terminal
+    width = os.get_terminal_size().columns #finds the size of the terminal
+    print("-" * width)
+
+#----->This part shows the credits<-----
 clearScreen()
+fullLine()
+print("This is a Number Guessing Game\nCoded by TheRuntingMuumuu\nConcept by Nundodo")
+fullLine()
+print("\n")
+
+#----->This part shows the rules<-----
 rules = input("Welcome to the Number Guessing Game. Do you want to see the rules? --> ") #assignes rules variable to the input from the user
-if rules.lower().strip()[0] == 'y' or rules.strip()[0] == "1": #it checks if the first letter of the var rules is y, or 1
-    print("The rules of this game are this. \n\t Pick the lower and upper values of the range that the computer will pick the value in \n\t Guess the number, and it will tell you whether you arr too high, or too low. \n\t You want to guess the number in as little tries as possible. \n")
-    input("Press ENTER to continue -->")
+try: #try this but if it errors out, it will go to except
+    if rules.lower().strip()[0] == 'y' or rules.strip()[0] == "1": #it checks if the first letter of the var rules is y, or 1
+        print("The rules of this game are this. \n\t Pick the lower and upper values of the range that the computer will pick the value in \n\t Guess the number, and it will tell you whether you arr too high, or too low. \n\t You want to guess the number in as little tries as possible. \n")
+        input("Press ENTER to continue -->")
+except: #If they did not enter a y, or 1
+    print("Defaulting to No")
 
-#finds out the range and then the number
-lowerNumber = int(input("\n\nWhat is the lower value for the range --> "))
-upperNumber = int(input("What is the upper value for the range --> "))
-number = random.randint(lowerNumber, upperNumber) #picks the number
+#----->This part takes the user input for the numbers and determines the number<-----
+while chosenNumbers == False:
+    try: #it will try this, if the user does not do an integer, it will go to except
+        lowerNumber = int(input("\n\nWhat is the lower value for the range --> "))
+        upperNumber = int(input("What is the upper value for the range --> "))
+        number = random.randint(lowerNumber, upperNumber) #picks the number
+        chosenNumbers == True #only gets here if no errors, in which case the numbers were chosen
+        break
+    except: #if the user did not choose an integer
+        if lowerNumber > upperNumber: #chooses the error code, this one is if the lower is bigger than upper
+            print(lowerNumber, upperNumber)
+            print("\nThe lower number is higher than the upper number.")
+            print("Please make sure that the first number has a higher numerical value than the second one.")
+            print("\n\tEX. \n\t2, 5 = GOOD\n\t5, 2 = BAD")
+        else:
+            print("\nYou did not enter a number.")
+            print("Please make sure that you do not include decimals, and that it is a number.")
+            print("\n\tEX. \n\t2 = GOOD\n\t2.5 = BAD\n\ta = BAD")
 
-def score(integer): #This is how it calculates which message to give
+#----->This part finds what message to give when they win (score)<-----
+def score(): #This is how it calculates which message to give
     if numberOfTries <= .25*scoreMultiplyer: #it is .25 times the multiplyer which means one try on really hard
         print("WOW WOW WOW WOW WOW WOW WOW!! YOU MUST BE SOOOOOOOOOOOOOOOOO LUCKY SINCE SOMEHOW IT ONLY TOOK YOU ", numberOfTries, "TRIES!!!!! WOW WOW WOW WOW WOW!!! YOU ARE UNOFFICIALLY THE BEST AT THIS GAME!!!!!!!")
     elif numberOfTries <= 1*scoreMultiplyer: #it is 1 times the multiplyer
@@ -44,8 +75,9 @@ def score(integer): #This is how it calculates which message to give
     else:
         print("I'm sorry about this, but I have to say the truth. You were terrible. It took you", numberOfTries, "tries.")
 
+#----->This part finds the multiplyer depending on how big the range is (to be more fair)<-----
 def scoreMultiplyerFunction(): #this changes the amount of tries to get different praise messages depending on how many possible values there are (difficulty)
-    scoreMultiplyerCalc = upperNumber - lowerNumber
+    scoreMultiplyerCalc = upperNumber - lowerNumber #to find out how many possible solutions there are
     if scoreMultiplyerCalc <= 16: #if there is only 16 possible solutions
         scoreMultiplyer = 1
     elif scoreMultiplyerCalc <= 40: #if there is only 50 possible solutions
@@ -64,20 +96,24 @@ def scoreMultiplyerFunction(): #this changes the amount of tries to get differen
         scoreMultiplyer = 12
     return(scoreMultiplyer) #returns it so that it can exist outside the function
 
-scoreMultiplyerCalc = upperNumber - lowerNumber #to find out how many possible solutions there are
 scoreMultiplyer = scoreMultiplyerFunction() #starts the function and assigns the scoreMultiplyer var to the result that is returned
 clearScreen()
 
+#----->This part is the game itself<-----
 while complete == False:
-    numberOfTries += 1
-    print("Pick a number between", lowerNumber, "and", upperNumber)
-    numberGuess = int(input("--> "))
-    if numberGuess != number:
-        if numberGuess > number: #to write whether or not they are above or below the number
-            print("You are too high\n")
+    try: #it uses int, so if it errors out, then they did not enter an integer, so it will ask them to enter again
+        numberOfTries += 1
+        print("Pick a number between", lowerNumber, "and", upperNumber)
+        numberGuess = int(input("--> "))
+        if numberGuess != number:
+            if numberGuess > number: #to write whether or not they are above or below the number
+                print("You are too high\n")
+            else:
+                print("You are too low\n")
         else:
-            print("You are too low\n")
-    else:
-        print("\n\nYay!! You guessed the number!!")
-        score(scoreMultiplyer)
-        complete = True
+            print("\n\nYay!! You guessed the number!!")
+            score() #diaplays their score by running the score function
+            complete = True
+    except: #if they did not enter an integer
+        numberOfTries -= 1 #needs to remove this since it did not actually count
+        print("You did not enter an integer, it has not been counted against your score.\n")
