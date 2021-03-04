@@ -49,7 +49,6 @@ while chosenNumbers == False:
         break
     except (IndexError, ValueError): #if the user did not choose an integer
         if lowerNumber > upperNumber: #chooses the error code, this one is if the lower is bigger than upper
-            print(lowerNumber, upperNumber)
             print("\nThe lower number is higher than the upper number.")
             print("Please make sure that the first number has a higher numerical value than the second one.")
             print("\n\tEX. \n\t2, 5 = GOOD\n\t5, 2 = BAD")
