@@ -97,7 +97,7 @@ def scoreMultiplyerFunction(): #this changes the amount of tries to get differen
     return(scoreMultiplyer) #returns it so that it can exist outside the function
 
 scoreMultiplyer = scoreMultiplyerFunction() #starts the function and assigns the scoreMultiplyer var to the result that is returned
-clearScreen()
+print("\n\n")
 
 #----->This part is the game itself<-----
 while complete == False:
@@ -105,7 +105,13 @@ while complete == False:
         numberOfTries += 1
         print("Pick a number between", lowerNumber, "and", upperNumber)
         numberGuess = int(input("--> "))
-        if numberGuess != number:
+        if numberGuess > upperNumber: #if they guessed above the range
+            numberOfTries -= 1 #needs to remove this since it did not actually count
+            print("You guessed above the range. It has not been counted against your score.\n")
+        elif numberGuess < lowerNumber: #if they guessed below the range
+            numberOfTries -= 1 #needs to remove this since it did not actually count
+            print("You guessed below the range. It has not been counted against your score.\n")
+        elif numberGuess != number:
             if numberGuess > number: #to write whether or not they are above or below the number
                 print("You are too high\n")
             else:
