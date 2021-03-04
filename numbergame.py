@@ -36,7 +36,7 @@ try: #try this but if it errors out, it will go to except
     if rules.lower().strip()[0] == 'y' or rules.strip()[0] == "1": #it checks if the first letter of the var rules is y, or 1
         print("The rules of this game are this. \n\t Pick the lower and upper values of the range that the computer will pick the value in \n\t Guess the number, and it will tell you whether you arr too high, or too low. \n\t You want to guess the number in as little tries as possible. \n")
         input("Press ENTER to continue -->")
-except: #If they did not enter a y, or 1
+except (IndexError, ValueError): #If they did not enter a y, or 1
     print("Defaulting to No")
 
 #----->This part takes the user input for the numbers and determines the number<-----
@@ -47,7 +47,7 @@ while chosenNumbers == False:
         number = random.randint(lowerNumber, upperNumber) #picks the number
         chosenNumbers == True #only gets here if no errors, in which case the numbers were chosen
         break
-    except: #if the user did not choose an integer
+    except (IndexError, ValueError): #if the user did not choose an integer
         if lowerNumber > upperNumber: #chooses the error code, this one is if the lower is bigger than upper
             print(lowerNumber, upperNumber)
             print("\nThe lower number is higher than the upper number.")
@@ -114,6 +114,6 @@ while complete == False:
             print("\n\nYay!! You guessed the number!!")
             score() #diaplays their score by running the score function
             complete = True
-    except: #if they did not enter an integer
+    except (IndexError, ValueError): #if they did not enter an integer
         numberOfTries -= 1 #needs to remove this since it did not actually count
         print("You did not enter an integer, it has not been counted against your score.\n")
