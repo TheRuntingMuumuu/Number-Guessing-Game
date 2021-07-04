@@ -50,8 +50,11 @@ while playagain == True:
         try: #it will try this, if the user does not do an integer, it will go to except
             lowerNumber = int(input("\n\nWhat is the lower value for the range --> "))
             upperNumber = int(input("What is the upper value for the range --> "))
-            number = random.randint(lowerNumber, upperNumber) #picks the number
-            chosenNumbers == True #only gets here if no errors, in which case the numbers were chosen
+            if LOLZ is False:
+                number = random.randint(lowerNumber, upperNumber) #picks the number
+            else:
+                number = random.uniform(lowerNumber, upperNumber) #random.uniform picks a DECIMAL number instead of an int, don't ask me why it's not randfloat
+            chosenNumbers = True #only gets here if no errors, in which case the numbers were chosen
             break
         except (IndexError, ValueError): #if the user did not choose an integer
             if lowerNumber > upperNumber: #chooses the error code, this one is if the lower is bigger than upper
