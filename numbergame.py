@@ -4,7 +4,7 @@ Made by TheRuntingMuumuu
 Concept by Nundodo
 """
 
-LOLZ = False #Set to True to induce chaos
+LOLZ = True #Set to True to induce chaos
 
 import random #for the random number generator
 import os #needed for formatting
@@ -48,11 +48,15 @@ while playagain == True:
     #----->This part takes the user input for the numbers and determines the number<-----
     while chosenNumbers is False:
         try: #it will try this, if the user does not do an integer, it will go to except
-            lowerNumber = int(input("\n\nWhat is the lower value for the range --> "))
-            upperNumber = int(input("What is the upper value for the range --> "))
+            lowerNumber = input("\n\nWhat is the lower value for the range --> ")
+            upperNumber = input("What is the upper value for the range --> ")
             if LOLZ is False:
+                lowerNumber = int(lowerNumber)
+                upperNumber = int(upperNumber)
                 number = random.randint(lowerNumber, upperNumber) #picks the number
             else:
+                lowerNumber = float(lowerNumber)
+                upperNumber = float(upperNumber)
                 number = random.uniform(lowerNumber, upperNumber) #random.uniform picks a DECIMAL number instead of an int, don't ask me why it's not randfloat
             chosenNumbers = True #only gets here if no errors, in which case the numbers were chosen
             break
@@ -112,7 +116,17 @@ while playagain == True:
         try: #it uses int, so if it errors out, then they did not enter an integer, so it will ask them to enter again
             numberOfTries += 1
             print("Pick a number between", lowerNumber, "and", upperNumber)
-            numberGuess = int(input("--> "))
+            numberGuess = input("--> ")
+            if LOLZ is False:
+                numberGuess = int(numberGuess)
+            elif LOLZ is True:
+                numberGuess = float(numberGuess)
+            else:
+                exit("""
+If you're seeing this, the code is in what I thought was an unreachable state.
+I could give you advice for what to do. But honestly, why should you trust me? I clearly screwed this up. I'm writing a message that should never appear, yet I know it will probably appear someday.
+On a deep level, I know I'm not up to this task. I'm so sorry.
+                """)
             if numberGuess > upperNumber: #if they guessed above the range
                 numberOfTries -= 1 #needs to remove this since it did not actually count
                 print("You guessed above the range. It has not been counted against your score.\n")
@@ -126,6 +140,8 @@ while playagain == True:
                     print("You are too low\n")
             else:
                 print("\n\nYay!! You guessed the number!!")
+                if LOLZ is True:
+                    print("Oh my gosh...You did that while being under LOLZ mode... That is impressive!\nEither you cheated, or you are amazing at this game.")
                 score() #diaplays their score by running the score function
                 complete = True
                 playagainPrompt = input("\n\nDo you want to play again? --> ")
