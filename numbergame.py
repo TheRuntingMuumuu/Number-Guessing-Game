@@ -4,7 +4,7 @@ Made by TheRuntingMuumuu
 Concept by Nundodo
 """
 
-LOLZ = True #Set to True to induce chaos
+LOLZ = False #Set to True to induce chaos
 
 import random #for the random number generator
 import os #needed for formatting
