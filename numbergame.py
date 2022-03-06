@@ -3,6 +3,24 @@ This is just a program that I made when I thought of an old number guessing game
 Made by TheRuntingMuumuu
 Concept by Nundodo
 """
+
+LOLZ = False #Set to True to induce chaos
+
+import random #for the random number generator
+import os #needed for formatting
+def clearScreen(): #clears screen
+    if os.name == 'nt': #is it windows
+        os.system('cls') #windows clear
+    else:
+        os.system('clear') #macos/linux clear
+def fullLine(): #makes a full width line in the terminal
+    width = os.get_terminal_size().columns #finds the size of the terminal
+    print("-" * width)
+def standTextOut(text): #wrapper around fullLine, inspired by TheTechRobo's "turbofunc" repo
+    fullLine()
+    print(text)
+    fullLine()
+
 playagain = True #so that they will play the game the first time
 while playagain == True:
     #Just defining some variables
@@ -14,24 +32,9 @@ while playagain == True:
     lowerNumber = 1 #again just defines this so it does not error out later
     upperNumber = 100 #just defines this so it does not error out later
 
-    import random #needed for the random number generator
-    import os #needed to clear the screen
-    def clearScreen(): #clears screen
-        if os.name == 'nt': #is it windows
-            os.system('cls') #windows clear
-        else:
-            os.system('clear') #macos/linux clear
-
-    def fullLine(): #makes a full width line in the terminal
-        width = os.get_terminal_size().columns #finds the size of the terminal
-        print("-" * width)
-
     #----->This part shows the credits<-----
-    clearScreen()
-    fullLine()
-    print("This is a Number Guessing Game\nCoded by TheRuntingMuumuu\nConcept by Nundodo")
-    fullLine()
-    print("\n")
+    standTextOut("This is a Number Guessing Game\nCoded by TheRuntingMuumuu\nConcept by Nundodo")
+    print()
 
     #----->This part shows the rules<-----
     rules = input("Welcome to the Number Guessing Game. Do you want to see the rules? --> ") #assignes rules variable to the input from the user
@@ -43,12 +46,19 @@ while playagain == True:
         print("Defaulting to No")
 
     #----->This part takes the user input for the numbers and determines the number<-----
-    while chosenNumbers == False:
+    while chosenNumbers is False:
         try: #it will try this, if the user does not do an integer, it will go to except
-            lowerNumber = int(input("\n\nWhat is the lower value for the range --> "))
-            upperNumber = int(input("What is the upper value for the range --> "))
-            number = random.randint(lowerNumber, upperNumber) #picks the number
-            chosenNumbers == True #only gets here if no errors, in which case the numbers were chosen
+            lowerNumber = input("\n\nWhat is the lower value for the range --> ")
+            upperNumber = input("What is the upper value for the range --> ")
+            if LOLZ is False:
+                lowerNumber = int(lowerNumber)
+                upperNumber = int(upperNumber)
+                number = random.randint(lowerNumber, upperNumber) #picks the number
+            else:
+                lowerNumber = float(lowerNumber)
+                upperNumber = float(upperNumber)
+                number = random.uniform(lowerNumber, upperNumber) #random.uniform picks a DECIMAL number instead of an int, don't ask me why it's not randfloat
+            chosenNumbers = True #only gets here if no errors, in which case the numbers were chosen
             break
         except (IndexError, ValueError): #if the user did not choose an integer
             if lowerNumber > upperNumber: #chooses the error code, this one is if the lower is bigger than upper
@@ -106,7 +116,17 @@ while playagain == True:
         try: #it uses int, so if it errors out, then they did not enter an integer, so it will ask them to enter again
             numberOfTries += 1
             print("Pick a number between", lowerNumber, "and", upperNumber)
-            numberGuess = int(input("--> "))
+            numberGuess = input("--> ")
+            if LOLZ is False:
+                numberGuess = int(numberGuess)
+            elif LOLZ is True:
+                numberGuess = float(numberGuess)
+            else:
+                exit("""
+If you're seeing this, the code is in what I thought was an unreachable state.
+I could give you advice for what to do. But honestly, why should you trust me? I clearly screwed this up. I'm writing a message that should never appear, yet I know it will probably appear someday.
+On a deep level, I know I'm not up to this task. I'm so sorry.
+                """)
             if numberGuess > upperNumber: #if they guessed above the range
                 numberOfTries -= 1 #needs to remove this since it did not actually count
                 print("You guessed above the range. It has not been counted against your score.\n")
@@ -120,6 +140,8 @@ while playagain == True:
                     print("You are too low\n")
             else:
                 print("\n\nYay!! You guessed the number!!")
+                if LOLZ is True:
+                    print("Oh my gosh...You did that while being under LOLZ mode... That is impressive!\nEither you cheated, or you are amazing at this game.")
                 score() #diaplays their score by running the score function
                 complete = True
                 playagainPrompt = input("\n\nDo you want to play again? --> ")
